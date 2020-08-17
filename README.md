@@ -1,6 +1,6 @@
 # Онлайн библиотека
 
-Сайт онлайн библиотеки, созданный на базе парсинга книг с сайта [http://tululu.org](http://tululu.org). 
+[Сайт онлайн библиотеки](https://juliakendo.github.io/online-library_v2/pages/index.html), созданный на базе парсинга книг с сайта [http://tululu.org](http://tululu.org). 
 
 ![Demo library](demo_lib.gif)
 
@@ -12,8 +12,8 @@ Python3 должен быть установлен. Используйте pip (
 pip install -r requirements.txt
 ```
 
-Получить необходимые для заполнения сайта данные с [http://tululu.org](http://tululu.org). Выполняется при помощи [парсера книг с http://tululu.org](https://github.com/JuliaKendo/online-library).
-Переменные окружения отсутствуют.
+Загрузить необходимые для заполнения сайта данные с [http://tululu.org](http://tululu.org) с помошью  [парсера книг](https://github.com/JuliaKendo/online-library). Скаченные книги положить в папку `books`, изображения - в папку `images`, *.json файл с результатами парсинга - в корень скрипта, либо в любую папку, указав ее в параметрах коммандной строки.
+Переменные в данном скрипте заполнять не требуется.
 
 ## Запуск
 
