@@ -125,8 +125,5 @@ dmypy.json
 .pyre/
 
 # Additional
-images/
-books/
 log.txt
 *.json
-pages
