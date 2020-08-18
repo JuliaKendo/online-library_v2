@@ -2,6 +2,7 @@ import os
 import json
 import math
 import argparse
+from dotenv import load_dotenv
 from more_itertools import chunked
 from livereload import Server
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -44,13 +45,24 @@ def on_reload(json_path):
 
 
 def main():
+    load_dotenv()
     parser = create_parser()
     args = parser.parse_args()
+    server_ip = os.getenv('SERVER_IP')
+    server_port = os.getenv('SERVER_PORT')
 
-    on_reload(args.json_path)
-    server = Server()
-    server.watch('template.html', on_reload(args.json_path))
-    server.serve(root='.')
+    try:
+
+        on_reload(args.json_path)
+        server = Server()
+        server.watch('template.html', on_reload(args.json_path))
+        server.serve(root='.', host=server_ip, port=server_port)
+
+    except OSError as error:
+        print(f'Системная ошибка чтения, записи: {error}')
+
+    except (KeyError, ValueError, TypeError) as error:
+        print(f'Ошибка обновления данных сайта: {error}')
 
 
 if __name__ == "__main__":
