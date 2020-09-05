@@ -1,6 +1,7 @@
 import os
 import json
 import math
+import glob
 import argparse
 from dotenv import load_dotenv
 from more_itertools import chunked
@@ -29,6 +30,9 @@ def on_reload(json_path):
         autoescape=select_autoescape(['html', 'xml'])
     )
 
+    for file in glob.glob(f'{pages_folder}/*.html'):
+        os.remove(file)
+
     template = env.get_template('template.html')
 
     books = read_books(json_path)
@@ -51,18 +55,10 @@ def main():
     server_ip = os.getenv('SERVER_IP')
     server_port = os.getenv('SERVER_PORT')
 
-    try:
-
-        on_reload(args.json_path)
-        server = Server()
-        server.watch('template.html', on_reload(args.json_path))
-        server.serve(root='.', host=server_ip, port=server_port)
-
-    except OSError as error:
-        print(f'Системная ошибка чтения, записи: {error}')
-
-    except (KeyError, ValueError, TypeError) as error:
-        print(f'Ошибка обновления данных сайта: {error}')
+    on_reload(args.json_path)
+    server = Server()
+    server.watch('template.html', lambda json_path=args.json_path: on_reload(json_path))
+    server.serve(root='.', host=server_ip, port=server_port)
 
 
 if __name__ == "__main__":
