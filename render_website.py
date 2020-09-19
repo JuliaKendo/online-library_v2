@@ -9,6 +9,9 @@ from livereload import Server
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
+BOOKS_PER_PAGE = 20
+
+
 def create_parser():
     parser = argparse.ArgumentParser(description='Параметры запуска скрипта')
     parser.add_argument('-j', '--json_path', default='books.json', help='Путь к *.json файлу с результатами')
@@ -36,8 +39,8 @@ def on_reload(json_path):
     template = env.get_template('template.html')
 
     books = read_books(json_path)
-    pages = range(0, math.ceil(len(books) / 20))
-    for books_group_number, books_group in enumerate(chunked(books, 20)):
+    pages = range(0, math.ceil(len(books) / BOOKS_PER_PAGE))
+    for books_group_number, books_group in enumerate(chunked(books, BOOKS_PER_PAGE)):
         rendered_page = template.render(
             pages=pages,
             books=books_group,
